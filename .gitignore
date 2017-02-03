@@ -5,3 +5,8 @@
 *.layout
 **/obj
 **/bin
+*.pyc
+*.xml
+tester.py
+*.spyderproject
+*.spyderworkspace

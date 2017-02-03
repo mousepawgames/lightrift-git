@@ -1,0 +1,108 @@
+#:kivy 1.0.9
+
+<Parent>:
+	id: parent
+	orientation: 'vertical'
+#	on_touch_up: print(paint.canvas)
+	on_line_size: paint.set_line_size(self.line_size)
+	on_color: paint.set_color(self.color)
+
+	StackLayout:
+		id: toolbar
+		size_hint_y: None
+		height: 25
+
+		StandardButton:
+			id: clear_btn
+			text: 'Clear'
+			on_release: paint.canvas.clear()
+
+		PaintModeButton:
+			text: 'Bezier'
+			mode: 'bezier'
+			on_press: paint.set_mode(self.mode)
+
+		PaintModeButton:
+			text: 'Straight'
+			mode: 'straight'
+			on_press: paint.set_mode(self.mode)
+
+		PaintModeButton:
+			text: 'Free'
+			mode: 'free'
+			on_press: paint.set_mode(self.mode)
+
+		PaintModeButton:
+			text: 'Rect'
+			mode: 'rect'
+			on_press: paint.set_mode(self.mode)
+
+		PaintModeButton:
+			text: 'Ellipse'
+			mode: 'ellipse'
+			on_press: paint.set_mode(self.mode)
+
+		Spinner:
+			id: line_sizer
+			size_hint_x: None
+			size_hint_y: None
+			size: 60, 25
+			text: 'Size'
+			on_text: 
+				self.text = 'Size ' + self.text[-1]
+				app.root.line_size = int(self.text[-1])
+			values: '1', '2', '3', '4', '5'
+						
+
+		StandardButton:
+			text: 'Color'
+			on_press: paint.select_color()
+
+		PaintModeButton:
+			text: 'Erase'
+			mode: 'erase'
+			on_press: paint.set_mode(self.mode)
+
+	MyPaint:
+		id: paint
+
+<MyPaint>:
+	canvas.before:
+		Color:
+			rgba: 1, 1, 1, 1
+		Rectangle:
+			pos: self.pos
+			size: self.size
+
+<ColorPopup>:
+    title: 'Select Color'
+    size: 400,400
+    size_hint: None, None
+	title_size: 16
+	on_dismiss: app.root.color = color_wheel.color
+    ColorPicker:
+		id: color_wheel
+		color: app.root.color
+        Button:
+            text: 'Done'
+            pos_hint: {'center_x': .76, 'y': .03}
+            size: 100, 50
+            size_hint: None, None
+            on_press: root.dismiss()
+
+<StandardButton>:
+	font_size: 14
+	size_hint_x: None
+	size_hint_y: None
+	height: 25
+	width: 60
+
+<PaintModeButton>
+	halign: 'center'
+	valign: 'middle'
+	font_size: 14
+	size_hint_x: None
+	size_hint_y: None
+	height: 25
+	width: 80
+
